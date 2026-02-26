@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXE AUTOMOTIVE | Premium Luxury Car Showroom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black-matte: #0a0a0a;
+            --black-secondary: #1a1a1a;
+            --black-tertiary: #2a2a2a;
+            --gold-metallic: #D4AF37;
+            --gold-light: #F4E4BC;
+            --silver-chrome: #C0C0C0;
+            --dark-navy: #0f172a;
+            --text-white: #ffffff;
+            --text-gray: #a1a1aa;
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--black-matte);
+            color: var(--text-white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--black-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-metallic);
+            border-radius: 4px;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black-matte);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader-content {
+            text-align: center;
+        }
+        .loader-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold-metallic);
+            letter-spacing: 0.2em;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        nav.scrolled {
+            padding: 1rem 5%;
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold-metallic);
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-metallic), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold-metallic);
+            transition: width 0.3s var(--transition-smooth);
+        }
+
+        .nav-links a:hover {
+            color: var(--gold-metallic);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: var(--gold-metallic);
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--black-matte) 0%, var(--dark-navy) 50%, var(--black-secondary) 100%);
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(192, 192, 192, 0.05) 0%, transparent 50%);
+            animation: parallaxMove 20s ease-in-out infinite;
+        }
+
+        @keyframes parallaxMove {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            padding: 0 2rem;
+            max-width: 900px;
+        }
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--gold-metallic);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--text-white) 0%, var(--silver-chrome) 50%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.8s;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1.1s;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1.4s;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-metallic) 0%, var(--gold-light) 100%);
+            color: var(--black-matte);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-white);
+            border: 1px solid var(--gold-metallic);
+            position: relative;
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-secondary:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--gold-light);
+            color: var(--gold-light);
+            transform: translateY(-3px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 5%;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--gold-metallic);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--text-white);
+            margin-bottom: 1rem;
+        }
+
+        .section-line {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-metallic), transparent);
+            margin: 0 auto;
+        }
+
+        /* Services Section */
+        .services {
+            background: linear-gradient(180deg, var(--black-matte) 0%, var(--black-secondary) 100%);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .service-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--gold-light);
+        }
+
+        .service-description {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* Car Listings Section */
+        .listings {
+            background: var(--black-matte);
+        }
+
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 10px;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-size: 0.8rem;
+            color: var(--gold-metallic);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .filter-input {
+            padding: 0.8rem 1.2rem;
+            background: var(--black-secondary);
+            border: 1px solid var(--black-tertiary);
+            color: var(--text-white);
+            font-family: 'Montserrat', sans-serif;
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--gold-metallic);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .car-card {
+            background: linear-gradient(145deg, var(--black-secondary) 0%, var(--black-tertiary) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .car-image {
+    width: 100%;
+    height: 220px; /* قد همه عکس‌ها رو یکی می‌کنه */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.car-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* عکس رو خوش‌فرم توی کادر جا می‌ده */
+}
+        
+
+        .car-image::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .car-card:hover .car-image::after {
+            left: 100%;
+        }
+
+        .car-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gold-metallic);
+            color: var(--black-matte);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            z-index: 2;
+        }
+
+        .car-info {
+            padding: 1.5rem;
+        }
+
+        .car-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            color: var(--gold-metallic);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 0.5rem;
+        }
+
+        .car-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-white);
+        }
+
+        .car-specs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .car-spec {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .car-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold-light);
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .car-price-currency {
+            font-size: 1rem;
+            color: var(--gold-metallic);
+        }
+
+        /* Car Detail Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2rem;
+            color: var(--gold-metallic);
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .car-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .car-gallery {
+            position: sticky;
+            top: 2rem;
+        }
+
+        .car-main-image {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, var(--dark-navy) 0%, var(--black-secondary) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .car-thumbnails {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            background: var(--black-secondary);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail:hover, .thumbnail.active {
+            border-color: var(--gold-metallic);
+            transform: scale(1.1);
+        }
+
+        .car-details h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-white);
+        }
+
+        .car-details .brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--gold-metallic);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .detail-price {
+            font-size: 2.5rem;
+            color: var(--gold-light);
+            margin-bottom: 2rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .spec-item {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 2px solid var(--gold-metallic);
+        }
+
+        .spec-label {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.3rem;
+        }
+
+        .spec-value {
+            font-size: 1.1rem;
+            color: var(--text-white);
+            font-weight: 600;
+        }
+
+        .car-description {
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        /* Trust Section */
+        .trust {
+            background: linear-gradient(180deg, var(--black-secondary) 0%, var(--black-matte) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trust::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--gold-metallic);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--gold-metallic) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .brands-grid {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+            opacity: 0.6;
+        }
+
+        .brand-item {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--silver-chrome);
+            letter-spacing: 0.2em;
+            transition: all 0.3s ease;
+        }
+
+        .brand-item:hover {
+            color: var(--gold-metallic);
+            transform: scale(1.1);
+        }
+
+        .testimonials {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonial-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .testimonial-author {
+            font-size: 1rem;
+            color: var(--gold-metallic);
+            font-weight: 600;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--black-matte);
+            position: relative;
+        }
+
+        .contact-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-white);
+        }
+
+        .contact-info p {
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-gray);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--gold-metallic);
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 3rem;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--gold-metallic);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--black-secondary);
+            border: 1px solid var(--black-tertiary);
+            color: var(--text-white);
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--gold-metallic);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black-secondary);
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold-metallic);
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold-metallic);
+        }
+
+        .copyright {
+            color: var(--text-gray);
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 400px;
+            height: 100%;
+            background: var(--black-secondary);
+            z-index: 999;
+            padding: 6rem 2rem 2rem;
+            transition: right 0.4s var(--transition-smooth);
+            border-left: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .mobile-menu-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu-links a:hover {
+            color: var(--gold-metallic);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s var(--transition-smooth);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .cars-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .car-detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .car-gallery {
+                position: relative;
+                top: 0;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .filter-row {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .filter-input {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            section {
+                padding: 4rem 1.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                padding: 0 2rem;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-text">LUXE AUTOMOTIVE</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#" class="logo">LUXE</a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#collection">Collection</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-menu-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#collection">Collection</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <p class="hero-subtitle">Premium Selection</p>
+            <h1 class="hero-title">Experience Beyond Driving</h1>
+            <p class="hero-description">Discover our exclusive collection of the world's finest automobiles. Where luxury meets performance.</p>
+            <div class="hero-buttons">
+                <a href="#collection" class="btn btn-primary">View Collection</a>
+                <a href="#contact" class="btn btn-secondary">Reserve Visit</a>
+                <button class="btn btn-secondary" onclick="openConsultModal()">VIP Consultation</button>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span style="color: var(--gold-metallic); font-size: 2rem;">↓</span>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header fade-in">
+            <p class="section-subtitle">Our Expertise</p>
+            <h2 class="section-title">Exclusive Services</h2>
+            <div class="section-line"></div>
+        </div>
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <span class="service-icon">🚗</span>
+                <h3 class="service-title">Premium Sales</h3>
+                <p class="service-description">Access to the most exclusive luxury vehicles worldwide. From rare classics to the latest supercars.</p>
+            </div>
+            <div class="service-card fade-in">
+                <span class="service-icon">💎</span>
+                <h3 class="service-title">VIP Consultation</h3>
+                <p class="service-description">Personal automotive advisors to guide you through every step of your luxury car acquisition.</p>
+            </div>
+            <div class="service-card fade-in">
+                <span class="service-icon">🔧</span>
+                <h3 class="service-title">Concierge Service</h3>
+                <p class="service-description">White-glove maintenance, customization, and delivery services tailored to your lifestyle.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Car Listings Section -->
+    <section class="listings" id="collection">
+        <div class="section-header fade-in">
+            <p class="section-subtitle">Curated Selection</p>
+            <h2 class="section-title">Current Collection</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="filter-container fade-in">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label class="filter-label">Brand</label>
+                    <select class="filter-input" id="brandFilter" onchange="filterCars()">
+                        <option value="all">All Brands</option>
+                        <option value="Rolls-Royce">Rolls-Royce</option>
+                        <option value="Bentley">Bentley</option>
+                        <option value="Lamborghini">Lamborghini</option>
+                        <option value="Ferrari">Ferrari</option>
+                        <option value="Mercedes">Mercedes-Benz</option>
+                        <option value="BMW">BMW</option>
+                        <option value="Porsche">Porsche</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Max Price</label>
+                    <select class="filter-input" id="priceFilter" onchange="filterCars()">
+                        <option value="all">All Prices</option>
+                        <option value="200000">Under \$200,000</option>
+                        <option value="500000">Under \$500,000</option>
+                        <option value="1000000">Under \$1,000,000</option>
+                        <option value="1000001">\$1,000,000+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Year</label>
+                    <select class="filter-input" id="yearFilter" onchange="filterCars()">
+                        <option value="all">All Years</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="classic">Classic</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="cars-grid" id="carsGrid">
+            <!-- Cars will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Car Detail Modal -->
+    <div class="modal" id="carModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="car-detail-grid" id="modalContent">
+                <!-- Content populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Trust Section -->
+    <section class="trust" id="about">
+        <div class="section-header fade-in">
+            <p class="section-subtitle">Why Choose Us</p>
+            <h2 class="section-title">The Luxury Standard</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="stats-grid fade-in">
+            <div class="stat-item">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">Cars Sold</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="98">0</div>
+                <div class="stat-label">% Satisfaction</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="24">0</div>
+                <div class="stat-label">/7 Support</div>
+            </div>
+        </div>
+
+        <div class="brands-grid fade-in">
+            <div class="brand-item">Rolls-Royce</div>
+            <div class="brand-item">Bentley</div>
+            <div class="brand-item">Lamborghini</div>
+            <div class="brand-item">Ferrari</div>
+            <div class="brand-item">Mercedes</div>
+            <div class="brand-item">Porsche</div>
+        </div>
+
+        <div class="testimonials fade-in">
+            <p class="testimonial-text">"An unparalleled experience from start to finish. The attention to detail and personalized service exceeded all expectations. Truly the benchmark for luxury automotive retail."</p>
+            <p class="testimonial-author">— Alexander Montgomery, VIP Client</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-header fade-in">
+            <p class="section-subtitle">Get In Touch</p>
+            <h2 class="section-title">Consult Our Experts</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="contact-container">
+            <div class="contact-info fade-in">
+                <h3>Visit Our Showroom</h3>
+                <p>Experience our collection in person. Our luxury showroom features the finest selection of automobiles in an environment befitting their prestige.</p>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <strong>Location</strong><br>
+                            1000 Luxury Lane, Beverly Hills, CA 90210
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <strong>Phone</strong><br>
+                            +1 (888) LUXE-AUTO
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div>
+                            <strong>Email</strong><br>
+                            concierge@luxeautomotive.com
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form fade-in">
+                <form id="contactForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" placeholder="Enter your phone number">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Interest</label>
+                        <select class="form-input">
+                            <option>Purchase Inquiry</option>
+                            <option>Sell Your Car</option>
+                            <option>VIP Consultation</option>
+                            <option>Service Appointment</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-textarea" placeholder="Tell us about your requirements..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">LUXE AUTOMOTIVE</div>
+        <p class="footer-text">Experience the extraordinary. Drive the exceptional.</p>
+        <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#collection">Collection</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <p class="copyright">
+    © 2024 LUXE Automotive. Designed & Developed by 
+    <span style="color: #d4af37; font-weight: bold; text-shadow: 0 0 5px rgba(212,175,55,0.5);">
+        Mahdi Ghasamzadeh
+    </span>
+</p>
+    </footer>
+
+    <script>
+        // Car Data
+        const cars = [
+            {
+                id: 1,
+                brand: 'Rolls-Royce',
+                model: 'Phantom VIII',
+                year: 2024,
+                price: 460000,
+                mileage: '1,200',
+                engine: '6.75L V12',
+                image: 'image/Rolls-Royce.png',
+                description: 'The pinnacle of luxury motoring. The Phantom VIII represents the ultimate expression of Rolls-Royce craftsmanship, featuring the signature magic carpet ride and bespoke interior options.',
+                specs: { power: '563 HP', acceleration: '5.1s', topSpeed: '155 mph' }
+            },
+            {
+                id: 2,
+                brand: 'Lamborghini',
+                model: 'Revuelto',
+                year: 2024,
+                price: 608000,
+                mileage: 'New',
+                engine: '6.5L V12 Hybrid',
+                image: 'image/result_69a03e554638f.png',
+                description: 'The first HPEV (High Performance Electrified Vehicle) hybrid super sports car from Lamborghini. A masterpiece of engineering combining V12 tradition with futuristic hybrid technology.',
+                specs: { power: '1,001 HP', acceleration: '2.5s', topSpeed: '217 mph' }
+            },
+            {
+                id: 3,
+                brand: 'Bentley',
+                model: 'Continental GT Speed',
+                year: 2023,
+                price: 280000,
+                mileage: '3,500',
+                engine: '6.0L W12',
+                image: 'image/Bentley.jpg',
+                description: 'The ultimate grand tourer. Combining exquisite craftsmanship with breathtaking performance, the Continental GT Speed delivers an unmatched driving experience.',
+                specs: { power: '650 HP', acceleration: '3.5s', topSpeed: '208 mph' }
+            },
+            {
+                id: 4,
+                brand: 'Ferrari',
+                model: 'SF90 Stradale',
+                year: 2023,
+                price: 625000,
+                mileage: '2,100',
+                engine: '4.0L V8 Hybrid',
+                image: 'image/Ferrari.jpg',
+                description: 'Ferrari\'s first series production PHEV. The SF90 Stradale sets a new benchmark for performance with its sophisticated hybrid powertrain and extreme aerodynamics.',
+                specs: { power: '986 HP', acceleration: '2.5s', topSpeed: '211 mph' }
+            },
+            {
+                id: 5,
+                brand: 'Mercedes',
+                model: 'Maybach S680',
+                year: 2024,
+                price: 230000,
+                mileage: 'New',
+                engine: '6.0L V12',
+                image: 'image/Mercedes.jpg',
+                description: 'The epitome of automotive luxury. The Mercedes-Maybach S680 offers first-class comfort with executive rear seating and state-of-the-art technology.',
+                specs: { power: '621 HP', acceleration: '4.4s', topSpeed: '130 mph' }
+            },
+            {
+                id: 6,
+                brand: 'Porsche',
+                model: '911 GT3 RS',
+                year: 2023,
+                price: 225000,
+                mileage: '1,800',
+                engine: '4.0L Flat-6',
+                image: 'image/pursh.png',
+                description: 'A track-focused masterpiece derived from motorsport. The 911 GT3 RS represents the ultimate expression of Porsche\'s engineering prowess.',
+                specs: { power: '518 HP', acceleration: '3.0s', topSpeed: '184 mph' }
+            },
+            {
+                id: 7,
+                brand: 'BMW',
+                model: 'XM Label Red',
+                year: 2024,
+                price: 185000,
+                mileage: 'New',
+                engine: '4.4L V8 Hybrid',
+                image: 'image/BMW.jpg',
+                description: 'The most powerful BMW M model ever made. The XM Label Red combines electrified performance with luxurious SUV practicality.',
+                specs: { power: '738 HP', acceleration: '3.7s', topSpeed: '180 mph' }
+            },
+            {
+                id: 8,
+                brand: 'Aston Martin',
+                model: 'DB12',
+                year: 2024,
+                price: 245000,
+                mileage: 'New',
+                engine: '4.0L V8 Twin-Turbo',
+                image: 'image/Stomartin.jpg',
+                description: 'The world\'s first Super Tourer. The DB12 combines sports car performance with supreme refinement and luxury.',
+                specs: { power: '671 HP', acceleration: '3.5s', topSpeed: '202 mph' }
+            }
+        ];
+
+        // Initialize
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1500);
+            
+            renderCars(cars);
+            initScrollAnimations();
+            initCounters();
+        });
+
+        // Navigation Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('overlay');
+
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        document.querySelectorAll('.mobile-menu-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        });
+
+        // Render Cars
+        function renderCars(carsToRender) {
+            const grid = document.getElementById('carsGrid');
+            grid.innerHTML = carsToRender.map(car => `
+                <div class="car-card fade-in" onclick="openCarDetail(${car.id})">
+                    <div class="car-image">
+                        <img src="${car.image}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                        <span class="car-badge">${car.year}</span>
+                    </div>
+                    <div class="car-info">
+                        <div class="car-brand">${car.brand}</div>
+                        <h3 class="car-name">${car.model}</h3>
+                        <div class="car-specs">
+                            <span class="car-spec">📅 ${car.year}</span>
+                            <span class="car-spec">🛣️ ${car.mileage} miles</span>
+                            <span class="car-spec">⚡ ${car.engine}</span>
+                        </div>
+                        <div class="car-price">
+                            <span class="car-price-currency">$</span>
+                            ${car.price.toLocaleString('en-US')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Re-trigger fade-in animations for new elements
+            setTimeout(initScrollAnimations, 100);
+        }
+
+        // Filter Cars
+        function filterCars() {
+            const brand = document.getElementById('brandFilter').value;
+            const price = document.getElementById('priceFilter').value;
+            const year = document.getElementById('yearFilter').value;
+
+            let filtered = cars;
+
+            if (brand !== 'all') {
+                filtered = filtered.filter(car => car.brand === brand);
+            }
+
+            if (price !== 'all') {
+                const maxPrice = parseInt(price);
+                if (maxPrice === 1000001) {
+                    filtered = filtered.filter(car => car.price >= 1000000);
+                } else {
+                    filtered = filtered.filter(car => car.price <= maxPrice);
+                }
+            }
+
+            if (year !== 'all') {
+                if (year === 'classic') {
+                    filtered = filtered.filter(car => car.year < 2020);
+                } else {
+                    filtered = filtered.filter(car => car.year === parseInt(year));
+                }
+            }
+
+            renderCars(filtered);
+        }
+
+        // Car Detail Modal
+        function openCarDetail(id) {
+            const car = cars.find(c => c.id === id);
+            const modal = document.getElementById('carModal');
+            const content = document.getElementById('modalContent');
+
+            content.innerHTML = `
+                <div class="car-gallery">
+                    <div class="car-main-image">
+                        <img src="${car.image}" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="car-thumbnails">
+                    
+                     <div class="thumbnail active">
+                     <img src="${car.image}" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+                <div class="car-details">
+                    <div class="brand">${car.brand}</div>
+                    <h2>${car.model}</h2>
+                    <div class="detail-price">$${car.price.toLocaleString()}</div>
+                    
+                    <div class="specs-grid">
+                        <div class="spec-item">
+                            <div class="spec-label">Year</div>
+                            <div class="spec-value">${car.year}</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Mileage</div>
+                            <div class="spec-value">${car.mileage}</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Engine</div>
+                            <div class="spec-value">${car.engine}</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Power</div>
+                            <div class="spec-value">${car.specs.power}</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">0-60 mph</div>
+                            <div class="spec-value">${car.specs.acceleration}</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Top Speed</div>
+                            <div class="spec-value">${car.specs.topSpeed}</div>
+                        </div>
+                    </div>
+                    
+                    <p class="car-description">${car.description}</p>
+                    
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button class="btn btn-primary" onclick="openConsultModal()">Inquire Now</button>
+                        <button class="btn btn-secondary">Schedule Test Drive</button>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('carModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openConsultModal() {
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            closeModal();
+        }
+
+        // Scroll Animations
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        }
+
+        // Animated Counters
+        function initCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.getAttribute('data-target'));
+                        animateCounter(entry.target, target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(counter => observer.observe(counter));
+        }
+
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (target === 98 ? '%' : target === 24 ? '/7' : '+');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 30);
+        }
+
+        // Form Submit
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('Thank you for your inquiry. Our concierge team will contact you within 24 hours.');
+            e.target.reset();
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
